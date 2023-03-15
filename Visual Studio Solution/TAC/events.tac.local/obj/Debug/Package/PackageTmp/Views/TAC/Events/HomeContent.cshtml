@@ -1,0 +1,162 @@
+﻿@{ 
+    Sitecore.Data.Items.Item media_climbing_item = Sitecore.Context.Database.GetItem("{6448A642-BB6D-4A59-B0C2-2059930B3670}");
+    Sitecore.Data.Items.MediaItem media_climbing = new Sitecore.Data.Items.MediaItem(media_climbing_item);
+    string media_climbing_url = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(media_climbing));
+
+    Sitecore.Data.Items.Item media_cycling_item = Sitecore.Context.Database.GetItem("{03B52992-F7B3-40E7-A763-DA99708E5353}");
+    Sitecore.Data.Items.MediaItem media_cycling = new Sitecore.Data.Items.MediaItem(media_cycling_item);
+    string media_cycling_url = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(media_cycling));
+
+    Sitecore.Data.Items.Item media_hiking_item = Sitecore.Context.Database.GetItem("{2BDE93C3-60BA-4513-A378-DB7135C6DCFA}");
+    Sitecore.Data.Items.MediaItem media_hiking = new Sitecore.Data.Items.MediaItem(media_hiking_item);
+    string media_hiking_url = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(media_hiking));
+
+    Sitecore.Data.Items.Item media_skiing_item = Sitecore.Context.Database.GetItem("{D413C935-8168-4FC3-A894-79C4B2B66230}");
+    Sitecore.Data.Items.MediaItem media_skiing = new Sitecore.Data.Items.MediaItem(media_skiing_item);
+    string media_skiing_url = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(media_skiing));
+}
+
+<header class="page-header">
+    <!-- [Homepage Carousell] -->
+    <div id="carousel_1" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel_1" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel_1" data-slide-to="1" class=""></li>
+            <li data-target="#carousel_1" data-slide-to="2" class=""></li>
+            <li data-target="#carousel_1" data-slide-to="3" class=""></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="jumbotron jumbotron-xl bg-media" style="background-image: url(@media_climbing_url)">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1>Climbing</h1>
+                                <p class="lead">Up for challenge? See our climbing events.</p>
+                                <a class="btn btn-hollow btn-lg" href="Event-List.html">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="jumbotron jumbotron-xl bg-media" style="background-image: url(@media_cycling_url)">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1>Cycling</h1>
+                                <p class="lead">Happy couple cycling in canola fields.</p>
+                                <a class="btn btn-hollow btn-lg" href="Event-List.html">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="jumbotron jumbotron-xl bg-media" style="background-image: url(@media_hiking_url)">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1>Hiking </h1>
+                                <p class="lead">Hikers group trekking in Crimea.</p>
+                                <a class="btn btn-hollow btn-lg" href="Event-List.html">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="jumbotron jumbotron-xl bg-media" style="background-image: url(@media_skiing_url)">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1>Skiing</h1>
+                                <p class="lead">Join our skiing event!</p>
+                                <a class="btn btn-hollow btn-lg" href="Event-List.html">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#carousel_1" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel_1" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- [/Homepage Carousell] -->
+</header>
+<section class="section section-full">
+    <!-- [Featured Events] -->
+    <div class="container">
+        <div class="row">
+            @Html.Sitecore().Placeholder("features")
+        </div>
+    </div>
+    <!-- [/Featured Events] -->
+    <!-- [Upcoming Events] -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="thumbnail">
+                    <a href="Event-Detail.html">
+                        <img src="Images/Skiing-the-Himalayas.jpg" class="img-responsive" alt="Skiing in the Himalayas" width="500" height="333" />
+                    </a>
+                    <div class="caption">
+                        <h3 class="teaser-heading">Skiing the Himalayas</h3>
+                        <p>
+                            The Himalayan Mountains offer the highest altitude skiing and snowboarding in the world. Here, you are surrounded by the largest and steepest mountains on earth and the views are unparalleled. Because the mountains are so high, the runs are long. The geographical location and the heavy snowfall make Gulmarg’s ski runs the best in the Himalayas, if not the world. <br>
+                            Our journey to Gulmarg from Srinagar is perhaps the most enchanting part of the trip. You will see picturesque villages, spectacular mountain views, and forested slopes on this tour through the unique landscape of the Himalayas.
+                        </p>
+                        <a href="Event-Detail.html" class="btn btn-default">Read more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well bg-primary">
+                    <h5 class="text-uppercase">Events</h5>
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-body">
+                                May 18, 2016
+                                <h4 class="media-heading">
+                                    <a href="Event-Detail.html">Cycling from Bangkok to Chiang Mai</a>
+                                </h4>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <div class="media-body">
+                                September 20, 2016
+                                <h4 class="media-heading">
+                                    <a href="Event-Detail.html">Hiking the Italian Alps </a>
+                                </h4>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <div class="media-body">
+                                December 15, 2016
+                                <h4 class="media-heading">
+                                    <a href="Event-Detail.html">Skiing the Himalayas</a>
+                                </h4>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <div class="media-body">
+                                May 24, 2017
+                                <h4 class="media-heading">
+                                    <a href="Event-Detail.html">Rock Climbing in the Czech Republic</a>
+                                </h4>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="Event-Sections.html" class="btn btn-default">Read more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [/Upcoming Events] -->
+</section>
