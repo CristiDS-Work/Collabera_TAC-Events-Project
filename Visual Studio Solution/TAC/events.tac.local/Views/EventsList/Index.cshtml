@@ -1,0 +1,62 @@
+﻿@using events.tac.local.Models
+@using TAC.Utils.Helpers
+
+@model EventsList
+
+@{
+    var currentItem = Sitecore.Context.Item;
+    Sitecore.Data.Fields.ImageField imgField = currentItem.Fields["HomeEventImage"];
+    Sitecore.Data.Items.MediaItem image = new Sitecore.Data.Items.MediaItem(imgField.MediaItem);
+    string image_url = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(image));
+}
+
+<header class="page-header bg-media bg-parallax" style="background-image: url(@image_url)">
+    <div class="container">
+        @Html.Sitecore().Placeholder("pageHeader")
+    </div>
+</header>
+<section class="page-header">
+    <div class="container">
+        <!-- [Two Columns] -->
+        <div class="row">
+            <div class="col-lg-4">
+                @Html.Sitecore().Placeholder("pageSide")
+            </div>
+            <div class="col-lg-8">
+                <!-- [Event List] -->
+                <div class="content-list newslist">
+                    <ol class="media-list">
+                        @foreach (var item in Model.Events)
+                        {
+                            var cutFrom = item.UniqueId.IndexOf("{");
+                            var cutTo = item.UniqueId.LastIndexOf("}") + 1;
+                            var eventID = item.UniqueId.Substring(cutFrom, cutTo - cutFrom);
+                            Sitecore.Data.Items.Item eventItem = Sitecore.Context.Database.GetItem(eventID); // Event item
+                            string eventUrl = Sitecore.Links.LinkManager.GetItemUrl(eventItem);
+
+                            <li class="media media-align-middle">
+                                <div class="media-left">
+                                    <a href="@eventUrl">@item.EventImage</a>
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="media-heading">
+                                        <a href="@eventUrl">@item.ContentHeading</a>
+                                    </h3>
+                                    <div class="description">
+                                        <p>@item.ContentIntro</p>
+                                    </div>
+                                </div>
+                                <div class="metadata well">@item.StartDate.ToString("MMMM dd, yyyy")</div>
+                            </li>
+                        }
+                        <div class="media-body" style="text-align: center;">
+                            @Html.Pager(Model.PageSize, Model.TotalResultCount)
+                        </div>
+                    </ol>
+                </div>
+                <!-- [Event List] -->
+            </div>
+        </div>
+        <!-- [/Two Columns] -->
+    </div>
+</section>

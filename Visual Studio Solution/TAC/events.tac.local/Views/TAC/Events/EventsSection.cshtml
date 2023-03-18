@@ -1,0 +1,33 @@
+﻿@{ 
+    Sitecore.Data.Items.Item eventsItem = Sitecore.Context.Database.GetItem("{EFB9EEAF-F36E-4E3C-9069-7DE126FD1414}"); // Events item
+    string eventsUrl = Sitecore.Links.LinkManager.GetItemUrl(eventsItem);
+}
+
+<header class="page-header">
+    <div class="container">
+        @Html.Sitecore().Placeholder("pageHeader")
+    </div>
+</header>
+
+<section class="section section-full">
+    <!-- [Category List] -->
+    <ul class="block-grid-md-4 block-grid-sm-3 block-grid-xs-1">
+        @{ 
+            foreach(Sitecore.Data.Items.Item it in eventsItem.Children)
+            { 
+                <li>
+                    <div class="thumbnail">
+                        <a href="@eventsUrl">
+                            @Html.Sitecore().Field("SectionEventImage", it, new { mw=500, mh=300 })
+                        </a>
+                        <div class="caption">
+                            <h3 class="teaser-heading">@Html.Sitecore().Field("ContentHeading", it)</h3>
+                            <a href="@eventsUrl" class="btn btn-default">Read more</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+    <!-- [Category List] -->
+</section>

@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+}
+
+@{ 
+    var currentItem = Sitecore.Context.Item;
+}
+
+@model IEnumerable<events.tac.local.Models.NavigationItem>
+
+<!-- [Breadcrumb Navigation] -->
+<ol class="breadcrumb">
+    @foreach (var navItem in Model)
+    {
+        if(navItem.Title == currentItem.Name)
+        {
+            <li>
+                <a class="@(navItem.Active ? "active" : string.Empty)"
+                   href="@navItem.URL" style="font-weight: bold; font-size: 2em;">
+                    @navItem.Title
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a class="@(navItem.Active ? "active" : string.Empty)"
+                   href="@navItem.URL">
+                    @navItem.Title
+                </a>
+            </li>
+        }
+    }
+</ol>
+<!-- [/Breadcrumb Navigation] -->
