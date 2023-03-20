@@ -1,0 +1,151 @@
+﻿@{ 
+    Sitecore.Data.Items.Item homeItem = Sitecore.Context.Database.GetItem("{E552690B-1529-49DD-BC9A-D2987CC7151E}"); // Home item
+    string homeUrl = Sitecore.Links.LinkManager.GetItemUrl(homeItem);
+
+    Sitecore.Data.Items.Item eventsItem = Sitecore.Context.Database.GetItem("{EFB9EEAF-F36E-4E3C-9069-7DE126FD1414}"); // Events item
+    string eventsUrl = Sitecore.Links.LinkManager.GetItemUrl(eventsItem);
+
+    Sitecore.Data.Items.Item aboutusItem = Sitecore.Context.Database.GetItem("{BABFE6CD-8235-4633-8E83-F3323A49E319}"); // AboutUs item
+    string aboutusUrl = Sitecore.Links.LinkManager.GetItemUrl(aboutusItem);
+}
+
+<!DOCTYPE html>
+<!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="" />
+    <meta name="description" content="@Html.Sitecore().Field("MetaDescription")" />
+    <title>@Html.Sitecore().Field("MetaTitle")</title>
+    <link rel="stylesheet" type="text/css" href="~/asset/styles/vendor.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/asset/styles/niteflight.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/asset/styles/addition.css">
+    <link rel="stylesheet" type="text/css" href="~/asset/styles/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/asset/styles/Difficulty.css">
+</head>
+
+<body class="header-static ">
+    <div id="main-container">
+        <!-- [Page Header] -->
+        <header class="header-static">
+            <nav class="navbar navbar-default navbar-static" id="mainNavbar">
+                <div class="container">
+                    <!-- [Company Logo] -->
+                    <div class="navbar-left">
+                        <a class="navbar-brand" href="@homeUrl">
+                            <span class="logo">
+                                @Html.Sitecore().Field("DecorationBanner")
+                            </span>
+                        </a>
+                    </div>
+                    <!-- [/Company Logo] -->
+                    <!-- [Main Navigation] -->
+                    <div class="navbar-left">
+                        <div class="collapse navbar-collapse" id="siteNavbar">
+                            <ul class="nav navbar-nav">
+                                <li><a class="text-uppercase" href="@homeUrl">@Html.Sitecore().Field("ContentHeading", homeItem)</a></li>
+                                <li class="dropdown">
+                                    <a href="@eventsUrl" class="dropdown-toggle text-uppercase" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        @Html.Sitecore().Field("ContentHeading", eventsItem)<span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @{ 
+                                            foreach(Sitecore.Data.Items.Item it in eventsItem.Children)
+                                            {
+                                                string url = Sitecore.Links.LinkManager.GetItemUrl(it);
+                                                <li><a href="@url">@Html.Sitecore().Field("ContentHeading", it)</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- [/Main Navigation] -->
+                    <!-- [Language Navigation] -->
+                    <div class="navbar-right">
+                        <div class="navbar-activity">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-globe"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="active"><a href="#">English</a></li>
+                                        <li><a href="#">Deutsch (Deutschland)</a></li>
+                                        <li><a href="#">日本語 (日本)</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- [/Language Navigation] -->
+                </div>
+            </nav>
+        </header>
+        <!-- [/Page Header] -->
+        <!-- [Page Content] -->
+        <main>
+            @Html.Sitecore().Placeholder("main")
+        </main>
+        <!-- [/Page Content] -->
+        <!-- [Footer Content] -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- [About Us] -->
+                        <div class="well">
+                            <h4>@Html.Sitecore().Field("ContentHeading", aboutusItem)</h4>
+                            <p>
+                                @Html.Sitecore().Field("ContentIntro", aboutusItem)
+                            </p>
+                        </div>
+                        <!-- [/About Us] -->
+                    </div>
+                    <div class="col-md-4">
+                        <!-- [Meta Navigation] -->
+                        <ul class="nav nav-stacked">
+                            @{ 
+                                foreach(Sitecore.Data.Items.Item it in aboutusItem.Children)
+                                {
+                                    string it_url = Sitecore.Links.LinkManager.GetItemUrl(it);
+
+                                    <li>
+                                        <a href="@it_url" title="@Html.Sitecore().Field("ContentHeading", it)">@Html.Sitecore().Field("ContentHeading", it)</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <!-- [/Meta Navigation] -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- [Copyright] -->
+                            <small class="copyright">
+                                <span>@Html.Sitecore().Field("Copyright", homeItem)</span>
+                            </small>
+                            <!-- [/Copyright] -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- [/Footer Content] -->
+    </div>
+    <script src="~/asset/scripts/Sitecore.Foundation.Theming.min.js"></script>
+    <script src="~/asset/scripts/Navigation.js"></script>
+</body>
+
+</html>

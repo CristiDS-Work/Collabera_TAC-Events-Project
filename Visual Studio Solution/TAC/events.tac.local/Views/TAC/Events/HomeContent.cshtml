@@ -1,0 +1,142 @@
+﻿@{ 
+    var currentItem = Sitecore.Context.Item;
+
+    Sitecore.Data.Items.Item evItem = Sitecore.Context.Database.GetItem("{EFB9EEAF-F36E-4E3C-9069-7DE126FD1414}"); // Events item
+    string evUrl = Sitecore.Links.LinkManager.GetItemUrl(evItem);
+}
+
+<header class="page-header">
+    <!-- [Homepage Carousell] -->
+    <div id="carousel_1" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            @{
+                var dataNo = 0;
+                var data_active = "";
+                foreach (Sitecore.Data.Items.Item it in evItem.Children)
+                {
+                    if(dataNo == 0) { data_active = "active"; }
+                    else { data_active = ""; }
+                    <li data-target="#carousel_1" data-slide-to="@dataNo" class="@data_active"></li>
+                    dataNo++;
+                }
+            }
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            @{
+                dataNo = 0;
+                var data_class = "item";
+                foreach (Sitecore.Data.Items.Item it in evItem.Children)
+                {
+                    Sitecore.Data.Fields.ImageField imgField = it.Fields["HomeEventImage"];
+                    Sitecore.Data.Items.MediaItem image = new Sitecore.Data.Items.MediaItem(imgField.MediaItem);
+                    string image_url = Sitecore.StringUtil.EnsurePrefix('/', Sitecore.Resources.Media.MediaManager.GetMediaUrl(image));
+
+                    string url = Sitecore.Links.LinkManager.GetItemUrl(it);
+
+                    if (dataNo == 0) { data_class = "item active"; }
+                    else { data_class = "item"; }
+
+                    <div class="@data_class">
+                        <div class="jumbotron jumbotron-xl bg-media" style="background-image: url(@image_url)">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h1>@Html.Sitecore().Field("ContentHeading", it)</h1>
+                                        <p class="lead">@Html.Sitecore().Field("HomeContentIntro", it)</p>
+                                        <a class="btn btn-hollow btn-lg" href="@url">@Sitecore.Globalization.Translate.Text("HomeCarouselReadMoreButton")</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    dataNo = 1;
+                }
+            }
+        </div>
+        <a class="left carousel-control" href="#carousel_1" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel_1" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- [/Homepage Carousell] -->
+</header>
+<section class="section section-full">
+    <!-- [Featured Events] -->
+    <div class="container">
+        <div class="row">
+            @Html.Sitecore().Placeholder("features")
+        </div>
+    </div>
+    <!-- [/Featured Events] -->
+    <!-- [Upcoming Events] -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                @{
+                    Sitecore.Data.Fields.ReferenceField refferencedEvent = currentItem.Fields["UpcomingEvent"];
+                    Sitecore.Data.Items.Item upcomingEvent = currentItem; // initialize
+                    string upcomingEventURL = "";
+
+                    if (refferencedEvent == null)
+                    {
+                        // Field does not exist
+                    }
+                    else if (refferencedEvent.TargetItem == null)
+                    {
+                        // No item selected
+                    }
+                    else
+                    {
+                        upcomingEvent = refferencedEvent.TargetItem;
+                        // Process referenced item
+                        upcomingEventURL = Sitecore.Links.LinkManager.GetItemUrl(upcomingEvent);
+                    }
+                }
+                <div class="thumbnail">
+                    <a href="@upcomingEventURL">
+                        @Html.Sitecore().Field("EventImage", upcomingEvent)
+                    </a>
+                    <div class="caption">
+                        <h3 class="teaser-heading">@Html.Sitecore().Field("ContentHeading", upcomingEvent)</h3>
+                        <p>
+                            @Html.Sitecore().Field("ContentBody", upcomingEvent)
+                        </p>
+                        <a href="@upcomingEventURL" class="btn btn-default">@Sitecore.Globalization.Translate.Text("EventsReadMore")</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well bg-primary">
+                    <h5 class="text-uppercase">@Html.Sitecore().Field("ContentHeading", evItem)</h5>
+                    <ul class="media-list">
+                        @{
+                            Sitecore.Data.Fields.MultilistField otherEvents = currentItem.Fields["OtherEvents"];
+                            if (otherEvents != null)
+                            {
+                                foreach (Sitecore.Data.Items.Item eventItem in otherEvents.GetItems())
+                                {
+                                    <li class="media">
+                                        <div class="media-body">
+                                            @Html.Sitecore().Field("StartDate", eventItem, new { format = "MMM dd, yyyy" })
+                                            <h4 class="media-heading">
+                                                @{ string url = Sitecore.Links.LinkManager.GetItemUrl(eventItem); }
+                                                <a href="@url">@Html.Sitecore().Field("ContentHeading", eventItem)</a>
+                                            </h4>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                    <a href="@evUrl" class="btn btn-default">@Sitecore.Globalization.Translate.Text("HomeEventsSideListReadMore")</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [/Upcoming Events] -->
+</section>
